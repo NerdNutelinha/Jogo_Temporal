@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Vitrine Criativa</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fff5f7;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 { color: #ff69b4; margin-bottom: 30px; }
+
+        /* --- FORMULÁRIO DE ENTRADA --- */
+        .form-entrada {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 40px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ffb6c1;
+            border-radius: 8px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover { background-color: #ff1493; }
+
+        /* --- EXIBIÇÃO DO PRODUTO (VITRINE) --- */
+        #vitrine {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .card-produto {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-left: 5px solid #ff69b4;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .card-produto h2 { color: #333; margin-top: 0; }
+        .card-produto p { color: #666; line-height: 1.6; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>✨ Cadastro de Criações</h1>
+
+    <div class="form-entrada">
+        <input type="text" id="nomeProduto" placeholder="Nome do produto ou criação...">
+        <textarea id="descProduto" rows="4" placeholder="Cole aqui a descrição que criamos..."></textarea>
+        <button onclick="adicionarProduto()">Postar na Vitrine</button>
+    </div>
+
+    <div id="vitrine">
+        </div>
+
+    <script>
+        // Função para carregar produtos salvos ao abrir o site
+        window.onload = exibirProdutos;
+
+        function adicionarProduto() {
+            const nome = document.getElementById('nomeProduto').value;
+            const desc = document.getElementById('descProduto').value;
+
+            if (nome === "" || desc === "") {
+                alert("Por favor, preencha o nome e a descrição!");
+                return;
+            }
+
+            const novoProduto = { nome, desc };
+
+            // Pega o que já tem no banco de dados do navegador ou cria uma lista vazia
+            let lista = JSON.parse(localStorage.getItem('minhaVitrine')) || [];
+            
+            // Adiciona o novo na lista
+            lista.push(novoProduto);
+            
+            // Salva de volta no navegador
+            localStorage.setItem('minhaVitrine', JSON.stringify(lista));
+
+            // Limpa os campos
+            document.getElementById('nomeProduto').value = "";
+            document.getElementById('descProduto').value = "";
+
+            exibirProdutos();
+        }
+
+        function exibirProdutos() {
+            const vitrine = document.getElementById('vitrine');
+            const lista = JSON.parse(localStorage.getItem('minhaVitrine')) || [];
+
+            // Limpa a tela antes de mostrar tudo de novo
+            vitrine.innerHTML = "";
+
+            lista.forEach((produto, index) => {
+                vitrine.innerHTML += `
+                    <div class="card-produto">
+                        <h2>${produto.nome}</h2>
+                        <p>${produto.desc}</p>
+                        <button onclick="removerProduto(${index})" style="background: #eee; color: #999; padding: 5px; font-size: 12px; width: auto;">Remover</button>
+                    </div>
+                `;
+            });
+        }
+
+        function removerProduto(index) {
+            let lista = JSON.parse(localStorage.getItem('minhaVitrine'));
+            lista.splice(index, 1);
+            localStorage.setItem('minhaVitrine', JSON.stringify(lista));
+            exibirProdutos();
+        }
+    </script>
+
+</body>
+</html>
