@@ -3,151 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Vitrine Criativa</title>
+    <title>Mundo Temporal - Raquel & Geovany</title>
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #fff5f7;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            margin: 0; padding: 0; overflow: hidden;
+            background-color: #fff5f7; font-family: 'Arial', sans-serif;
+            touch-action: manipulation;
         }
 
-        h1 { color: #ff69b4; margin-bottom: 30px; }
-
-        /* --- FORMULÁRIO DE ENTRADA --- */
-        .form-entrada {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 40px;
+        #game-stage {
+            width: 100vw; height: 100vh;
+            position: relative; overflow: hidden;
+            display: flex; align-items: flex-end;
         }
 
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 2px solid #ffb6c1;
-            border-radius: 8px;
-            box-sizing: border-box;
-            outline: none;
+        /* CHÃO */
+        #floor {
+            width: 100%; height: 50px;
+            background: #ffb6c1; position: absolute; bottom: 0;
         }
 
-        button {
-            width: 100%;
+        /* PERSONAGEM */
+        #player {
+            width: 50px; height: 50px;
             background-color: #ff69b4;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
+            border-radius: 50% 50% 10px 10px;
+            position: absolute; left: 50px; bottom: 50px;
+            z-index: 10; transition: bottom 0.1s;
         }
 
-        button:hover { background-color: #ff1493; }
-
-        /* --- EXIBIÇÃO DO PRODUTO (VITRINE) --- */
-        #vitrine {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1000px;
+        /* DATAS AO FUNDO */
+        .data-bg {
+            position: absolute; right: -300px;
+            bottom: 200px; font-size: 3rem;
+            font-weight: bold; white-space: nowrap;
+            opacity: 0.3; user-select: none;
         }
 
-        .card-produto {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border-left: 5px solid #ff69b4;
-            animation: fadeIn 0.5s ease-in;
+        /* CORAÇÕES QUE SEGUEM */
+        .heart-trail {
+            position: absolute; font-size: 20px;
+            pointer-events: none; animation: fadeUp 1s forwards;
         }
 
-        .card-produto h2 { color: #333; margin-top: 0; }
-        .card-produto p { color: #666; line-height: 1.6; }
+        @keyframes fadeUp {
+            to { transform: translateY(-50px); opacity: 0; }
+        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        #ui {
+            position: fixed; top: 20px; width: 100%;
+            text-align: center; z-index: 100;
+        }
+
+        #instructions {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px; border-radius: 20px;
+            color: #ff69b4; font-weight: bold;
         }
     </style>
 </head>
-<body>
+<body onclick="handleAction()">
 
-    <h1>✨ Cadastro de Criações</h1>
-
-    <div class="form-entrada">
-        <input type="text" id="nomeProduto" placeholder="Nome do produto ou criação...">
-        <textarea id="descProduto" rows="4" placeholder="Cole aqui a descrição que criamos..."></textarea>
-        <button onclick="adicionarProduto()">Postar na Vitrine</button>
+    <div id="ui">
+        <div id="instructions">❤️ Clique para pular e caminhar na nossa história ❤️</div>
     </div>
 
-    <div id="vitrine">
-        </div>
+    <div id="game-stage">
+        <div id="player"></div>
+        <div id="floor"></div>
+    </div>
 
     <script>
-        // Função para carregar produtos salvos ao abrir o site
-        window.onload = exibirProdutos;
+        const player = document.getElementById('player');
+        const stage = document.getElementById('game-stage');
+        const instructions = document.getElementById('instructions');
 
-        function adicionarProduto() {
-            const nome = document.getElementById('nomeProduto').value;
-            const desc = document.getElementById('descProduto').value;
+        let isJumping = false;
+        let currentStep = 0;
+        let heartColor = "#ff69b4";
 
-            if (nome === "" || desc === "") {
-                alert("Por favor, preencha o nome e a descrição!");
-                return;
+        const datas = [
+            { data: "18/02/2025", cor: "#ffb6c1", msg: "Onde tudo começou..." },
+            { data: "20/05/2025", cor: "#ff69b4", msg: "Nossa conexão crescia..." },
+            { data: "01/01/2026", cor: "#da70d6", msg: "Um novo ano, um novo nós..." },
+            { data: "13/02/2026", cor: "#ff1493", msg: "O início do nosso pra sempre!" },
+            { data: "Pule para o Futuro!", cor: "#ff0000", msg: "PRONTO PARA O PRÓXIMO NÍVEL?" }
+        ];
+
+        function handleAction() {
+            if (isJumping) return;
+            
+            // PULO
+            isJumping = true;
+            let pos = 50;
+            let up = setInterval(() => {
+                if (pos >= 150) {
+                    clearInterval(up);
+                    let down = setInterval(() => {
+                        if (pos <= 50) {
+                            clearInterval(down);
+                            isJumping = false;
+                        }
+                        pos -= 5;
+                        player.style.bottom = pos + "px";
+                    }, 20);
+                }
+                pos += 5;
+                player.style.bottom = pos + "px";
+            }, 20);
+
+            // GERA CORAÇÃO NO RASTRO
+            createHeart();
+
+            // AVANÇA A DATA
+            if (currentStep < datas.length) {
+                showNextData();
+            } else {
+                // REDIRECIONA PARA O VÍDEO NO ÚLTIMO PULO
+                window.location.href = "https://www.youtube.com/embed/8GlWCm9wOF0?autoplay=1";
             }
-
-            const novoProduto = { nome, desc };
-
-            // Pega o que já tem no banco de dados do navegador ou cria uma lista vazia
-            let lista = JSON.parse(localStorage.getItem('minhaVitrine')) || [];
-            
-            // Adiciona o novo na lista
-            lista.push(novoProduto);
-            
-            // Salva de volta no navegador
-            localStorage.setItem('minhaVitrine', JSON.stringify(lista));
-
-            // Limpa os campos
-            document.getElementById('nomeProduto').value = "";
-            document.getElementById('descProduto').value = "";
-
-            exibirProdutos();
         }
 
-        function exibirProdutos() {
-            const vitrine = document.getElementById('vitrine');
-            const lista = JSON.parse(localStorage.getItem('minhaVitrine')) || [];
-
-            // Limpa a tela antes de mostrar tudo de novo
-            vitrine.innerHTML = "";
-
-            lista.forEach((produto, index) => {
-                vitrine.innerHTML += `
-                    <div class="card-produto">
-                        <h2>${produto.nome}</h2>
-                        <p>${produto.desc}</p>
-                        <button onclick="removerProduto(${index})" style="background: #eee; color: #999; padding: 5px; font-size: 12px; width: auto;">Remover</button>
-                    </div>
-                `;
-            });
+        function createHeart() {
+            const h = document.createElement('div');
+            h.innerHTML = "❤️";
+            h.className = "heart-trail";
+            h.style.left = "60px";
+            h.style.bottom = "80px";
+            h.style.color = heartColor;
+            stage.appendChild(h);
+            setTimeout(() => h.remove(), 1000);
         }
 
-        function removerProduto(index) {
-            let lista = JSON.parse(localStorage.getItem('minhaVitrine'));
-            lista.splice(index, 1);
-            localStorage.setItem('minhaVitrine', JSON.stringify(lista));
-            exibirProdutos();
+        function showNextData() {
+            const d = datas[currentStep];
+            const el = document.createElement('div');
+            el.className = "data-bg";
+            el.innerText = d.data;
+            el.style.color = d.cor;
+            stage.appendChild(el);
+
+            heartColor = d.cor; // Muda cor do rastro
+            instructions.innerText = d.msg;
+
+            // Animação da data passando
+            let x = window.innerWidth;
+            let move = setInterval(() => {
+                x -= 5;
+                el.style.left = x + "px";
+                if (x < -500) {
+                    clearInterval(move);
+                    el.remove();
+                }
+            }, 10);
+
+            currentStep++;
         }
     </script>
-
 </body>
 </html>
