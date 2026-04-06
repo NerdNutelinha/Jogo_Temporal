@@ -94,10 +94,12 @@
             display: block;
         }
 
-        /* 20/05/2010: Vermelho Vivo */
-        .data-2005 {
-            font-size: 3.5rem; font-weight: bold; color: var(--vermelho-vivo);
-            text-shadow: 0 0 15px var(--vermelho-vivo), 0 0 30px var(--vermelho-vivo);
+        /* 20/05/2010: Várias cores variadas (Vermelho, Laranja, Amarelo) */
+        .data-2010 {
+            font-size: 3.5rem; font-weight: bold;
+            background: linear-gradient(to right, #ff0000, #ff8c00, #ffff00);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.8));
             display: block;
         }
 
@@ -110,12 +112,10 @@
             display: block;
         }
 
-        /* 13/02/2026: Várias cores variadas (Vermelho, Laranja, Amarelo) */
+        /* 13/02/2026: Vermelho Vivo */
         .data-1302 {
-            font-size: 3.5rem; font-weight: bold;
-            background: linear-gradient(to right, #ff0000, #ff8c00, #ffff00);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.8));
+            font-size: 3.5rem; font-weight: bold; color: var(--vermelho-vivo);
+            text-shadow: 0 0 15px var(--vermelho-vivo), 0 0 30px var(--vermelho-vivo);
             display: block;
         }
 
@@ -147,7 +147,7 @@
 
     <div id="login-screen">
         <div class="login-box">
-            <h1 style="color: var(--accent-color);">Nosso passado e futuro</h1>
+            <h1 style="color: var(--accent-color);">Nosso Passado e Futuro RG</h1>
             <input type="text" id="input-nome" placeholder="Como quer ser chamada Amorzinho ?">
             <select id="input-cor">
                 <option value="rosa">Rosa Neon</option>
@@ -182,7 +182,7 @@
                 <span class="frase-text">O começo do nosso futuro e cumprimento da promessa</span>
             </div>
 
-            <div id="final-platform">Aceita viver o futuro comigo? ❤️</div>
+            <div id="final-platform">Aceita viver o futuro comigo Raquel ? ❤️</div>
         </div>
     </div>
 
@@ -278,7 +278,7 @@
 
         function copiarInfo() {
             navigator.clipboard.writeText("georaquel.2026@gmail.com | Senha: 13022026Rg.");
-            alert("E-mail e Senha copiados! ❤️");
+            alert("Gmail e Senha copiados minha Vida! ❤️");
         }
     </script>
 </body>
