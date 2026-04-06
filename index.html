@@ -42,7 +42,7 @@
         /* --- MUNDO DO JOGO --- */
         #game-content { display: none; }
         #game-world {
-            width: 5000px; height: 100vh; position: relative;
+            width: 6000px; height: 100vh; position: relative;
             background: linear-gradient(to bottom, #2c001e, #1a1a1a);
             transition: transform 0.1s ease-out;
         }
@@ -59,25 +59,28 @@
             text-shadow: 0 0 10px #000; pointer-events: none;
         }
 
-        /* --- ESTILOS DE COR --- */
         .cor-rosa { background-color: #ff69b4; box-shadow: 0 0 20px #ff69b4; }
         .cor-preto { background-color: #000; box-shadow: 0 0 20px #ffffff; border: 1px solid #fff; }
 
-        /* --- MILESTONES --- */
-        .milestone { position: absolute; bottom: 250px; text-align: center; width: 450px; }
+        /* --- ESTILO DAS DATAS (BRILHANTE) --- */
+        .milestone { position: absolute; bottom: 250px; text-align: center; width: 500px; }
         .data-text {
             font-size: 3.5rem; font-weight: bold; color: #fff;
-            text-shadow: 0 0 15px var(--accent-color); display: block;
+            text-shadow: 0 0 15px var(--accent-color), 0 0 30px var(--accent-color); 
+            display: block;
+        }
+        .frase-text {
+            font-size: 1.3rem; color: #fff; margin-top: 15px;
+            font-style: italic; text-shadow: 2px 2px 4px #000;
         }
 
         #final-platform {
-            position: absolute; left: 4500px; bottom: 60px;
-            width: 350px; height: 40px; background: var(--accent-color);
-            border-radius: 10px; display: flex; justify-content: center;
+            position: absolute; left: 5500px; bottom: 60px;
+            width: 380px; height: 50px; background: var(--accent-color);
+            border-radius: 15px; display: flex; justify-content: center;
             align-items: center; font-weight: bold; animation: pulse 1.5s infinite;
         }
 
-        /* --- SEÇÃO DO GMAIL (FINAL) --- */
         #gmail-section {
             display: none; position: fixed; inset: 0;
             background: white; color: #333; overflow-y: auto;
@@ -91,7 +94,7 @@
         }
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-150px); }
+            100% { opacity: 0; transform: translateY(-180px); }
         }
     </style>
 </head>
@@ -111,18 +114,27 @@
 
     <div id="game-content">
         <div id="game-world">
-            <div id="player">
-                <div id="player-name-tag"></div>
-            </div>
+            <div id="player"><div id="player-name-tag"></div></div>
             <div style="width:100%; height:60px; background:#ffb6c1; position:absolute; bottom:0;"></div>
 
-            <div class="milestone" style="left: 600px;">
+            <div class="milestone" style="left: 800px;">
                 <span class="data-text">18/02/2025</span>
-                <p>O começo de tudo...</p>
+                <span class="frase-text">O início de tudo... onde Cristo nos uniu</span>
             </div>
+
             <div class="milestone" style="left: 2000px;">
+                <span class="data-text">20/05/2010</span>
+                <span class="frase-text">O dia em que o mundo ficou mais lindo e perfeito</span>
+            </div>
+
+            <div class="milestone" style="left: 3200px;">
+                <span class="data-text">01/01/2026</span>
+                <span class="frase-text">Recomeço de tudo e a nossa promessa</span>
+            </div>
+
+            <div class="milestone" style="left: 4400px;">
                 <span class="data-text">13/02/2026</span>
-                <p>O nosso "Sim"!</p>
+                <span class="frase-text">O começo do nosso futuro e cumprimento da promessa</span>
             </div>
 
             <div id="final-platform">Aceita viver o futuro comigo? ❤️</div>
@@ -132,10 +144,10 @@
     <div id="gmail-section">
         <h2>Para Minha Raquel ❤️</h2>
         <iframe width="320" height="560" src="https://www.youtube.com/embed/8GlWCm9wOF0" frameborder="0" allowfullscreen></iframe>
-        <p style="margin: 30px auto; max-width: 600px; line-height: 1.6;">
-            Para que você possa sempre se lembrar dos nossos momentos juntos, faça login com esse gmail e me conte o que achou... amo muitooooooo!
+        <p style="margin: 30px auto; max-width: 600px; line-height: 1.6; font-size: 1.1rem;">
+            Para que você possa sempre se lembrar dos nossos momentos juntos, faça login com esse gmail e então me conte o que achou sobre tudo meu amorzinho mais lindo e perfeito desse mundo que amo muitooooooo e não largo por nada...
         </p>
-        <button class="btn-entrar" onclick="navigator.clipboard.writeText('georaquel.2026@gmail.com')">🎿 Copiar Gmail e Senha 🎿</button>
+        <button class="btn-entrar" onclick="copiarInfo()">💞 Copiar Gmail e Senha 💞</button>
         <p style="color: #999; margin-top: 20px;">Gomes Santos | 01/03/2030</p>
     </div>
 
@@ -146,10 +158,8 @@
         function iniciarJogo() {
             nomeSalvo = document.getElementById('input-nome').value || "Raquel";
             corSalva = document.getElementById('input-cor').value;
-            
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('game-content').style.display = 'block';
-            
             const p = document.getElementById('player');
             p.className = corSalva === 'rosa' ? 'cor-rosa' : 'cor-preto';
             document.getElementById('player-name-tag').innerText = nomeSalvo;
@@ -165,8 +175,7 @@
             let diff = (currentX - startX) * 1.5;
             playerX += diff;
             if (playerX < 50) playerX = 50;
-            if (playerX > 4800) playerX = 4800;
-
+            if (playerX > 5800) playerX = 5800;
             player.style.left = playerX + "px";
             world.style.transform = `translateX(${-playerX + 150 > 0 ? 0 : -playerX + 150}px)`;
             startX = currentX;
@@ -176,17 +185,15 @@
         window.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
         window.addEventListener('touchmove', e => { if(isDragging) handleMove(e.touches[0].clientX); });
         window.addEventListener('touchend', () => isDragging = false);
-
         window.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
         window.addEventListener('mousemove', e => { if(isDragging) handleMove(e.clientX); });
         window.addEventListener('mouseup', () => isDragging = false);
 
-        // PULO PARA O FINAL
         window.addEventListener('dblclick', () => {
             player.style.bottom = "180px";
             setTimeout(() => {
                 player.style.bottom = "60px";
-                if (playerX > 4400) {
+                if (playerX > 5400) {
                     document.getElementById('game-content').style.display = 'none';
                     document.getElementById('gmail-section').style.display = 'block';
                 }
@@ -194,7 +201,7 @@
         });
 
         function createHeart() {
-            if (Math.random() > 0.1) return;
+            if (Math.random() > 0.15) return;
             const h = document.createElement('div');
             h.innerHTML = "❤️";
             h.className = "floating-heart";
@@ -203,6 +210,11 @@
             h.style.color = corSalva === 'rosa' ? '#ff69b4' : '#fff';
             world.appendChild(h);
             setTimeout(() => h.remove(), 2000);
+        }
+
+        function copiarInfo() {
+            navigator.clipboard.writeText("georaquel.2026@gmail.com | Senha: 13022026Rg");
+            alert("E-mail e Senha copiados! ❤️");
         }
     </script>
 </body>
