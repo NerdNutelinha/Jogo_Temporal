@@ -3,199 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nossa História - Raquel & Geovany</title>
+    <title>Nosso Passado e Futuro ❤️</title>
     <style>
         :root {
-            --pink-neon: #ff69b4;
-            --pink-light: #ffb6c1;
+            --accent-color: #ff69b4;
+            --bg-dark: #1a1a1a;
         }
         body {
             margin: 0; padding: 0; overflow: hidden;
-            background-color: #1a1a1a; /* Fundo escuro para destacar o brilho */
+            background-color: var(--bg-dark);
             font-family: 'Arial', sans-serif;
-            touch-action: none;
+            touch-action: none; color: white;
         }
 
+        /* --- TELA DE LOGIN --- */
+        #login-screen {
+            position: fixed; inset: 0;
+            background: linear-gradient(45deg, #2c001e, #000);
+            z-index: 1000; display: flex;
+            flex-direction: column; justify-content: center; align-items: center;
+            text-align: center;
+        }
+        .login-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px; border-radius: 20px;
+            backdrop-filter: blur(10px); border: 1px solid var(--accent-color);
+        }
+        input, select {
+            display: block; margin: 15px auto; padding: 12px;
+            width: 250px; border-radius: 10px; border: none; outline: none;
+        }
+        .btn-entrar {
+            background: var(--accent-color); color: white;
+            border: none; padding: 15px 40px; border-radius: 50px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+
+        /* --- MUNDO DO JOGO --- */
+        #game-content { display: none; }
         #game-world {
-            width: 5000px; /* Mundo longo para ela caminhar */
-            height: 100vh;
-            position: relative;
+            width: 5000px; height: 100vh; position: relative;
             background: linear-gradient(to bottom, #2c001e, #1a1a1a);
             transition: transform 0.1s ease-out;
         }
 
-        #floor {
-            width: 100%; height: 60px;
-            background: var(--pink-light);
-            position: absolute; bottom: 0;
-            box-shadow: 0 -10px 20px rgba(255, 105, 180, 0.3);
-        }
-
         #player {
-            width: 50px; height: 50px;
-            background-color: var(--pink-neon);
+            width: 50px; height: 50px; position: absolute;
+            left: 100px; bottom: 60px; z-index: 10;
             border-radius: 50% 50% 10px 10px;
-            position: absolute; left: 100px; bottom: 60px;
-            z-index: 10; transition: bottom 0.2s;
-            box-shadow: 0 0 15px var(--pink-neon);
+            transition: bottom 0.2s;
+        }
+        #player-name-tag {
+            position: absolute; width: 150px; text-align: center;
+            left: -50px; top: -40px; font-weight: bold;
+            text-shadow: 0 0 10px #000; pointer-events: none;
         }
 
-        /* ESTILO DAS DATAS E FRASES */
-        .milestone {
-            position: absolute; bottom: 250px;
-            text-align: center; width: 400px;
-        }
+        /* --- ESTILOS DE COR --- */
+        .cor-rosa { background-color: #ff69b4; box-shadow: 0 0 20px #ff69b4; }
+        .cor-preto { background-color: #000; box-shadow: 0 0 20px #ffffff; border: 1px solid #fff; }
+
+        /* --- MILESTONES --- */
+        .milestone { position: absolute; bottom: 250px; text-align: center; width: 450px; }
         .data-text {
             font-size: 3.5rem; font-weight: bold; color: #fff;
-            text-shadow: 0 0 10px var(--pink-neon), 0 0 20px var(--pink-neon);
-            display: block;
-        }
-        .frase-text {
-            font-size: 1.2rem; color: var(--pink-light);
-            margin-top: 10px; font-style: italic;
-            text-shadow: 0 0 5px #000;
+            text-shadow: 0 0 15px var(--accent-color); display: block;
         }
 
-        /* PLATAFORMA FINAL */
         #final-platform {
-            position: absolute; right: 200px; bottom: 60px;
-            width: 300px; height: 30px; background: var(--pink-neon);
+            position: absolute; left: 4500px; bottom: 60px;
+            width: 350px; height: 40px; background: var(--accent-color);
             border-radius: 10px; display: flex; justify-content: center;
-            align-items: center; color: white; font-weight: bold;
-            box-shadow: 0 0 30px var(--pink-neon); cursor: pointer;
-            animation: pulse 1.5s infinite;
+            align-items: center; font-weight: bold; animation: pulse 1.5s infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        /* --- SEÇÃO DO GMAIL (FINAL) --- */
+        #gmail-section {
+            display: none; position: fixed; inset: 0;
+            background: white; color: #333; overflow-y: auto;
+            z-index: 2000; padding: 40px 20px; text-align: center;
         }
 
-        /* CORAÇÕES SAINDO DA CABEÇA */
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .floating-heart {
-            position: absolute; font-size: 20px; color: var(--pink-neon);
-            pointer-events: none; animation: floatUp 2s forwards;
-            z-index: 5;
+            position: absolute; font-size: 20px; pointer-events: none;
+            animation: floatUp 2s forwards; z-index: 5;
         }
         @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-150px) scale(1.5); }
-        }
-
-        #ui-hint {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            color: white; background: rgba(0,0,0,0.5); padding: 10px 20px;
-            border-radius: 30px; pointer-events: none; z-index: 100;
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-150px); }
         }
     </style>
 </head>
 <body>
 
-    <div id="ui-hint">Deslize para os lados para caminhar ❤️</div>
-
-    <div id="game-world">
-        <div id="player"></div>
-        <div id="floor"></div>
-
-        <div class="milestone" style="left: 600px;">
-            <span class="data-text">18/02/2025</span>
-            <span class="frase-text">Onde nossos mundos se tocaram pela primeira vez...</span>
-        </div>
-
-        <div class="milestone" style="left: 1600px;">
-            <span class="data-text">20/05/2010</span>
-            <span class="frase-text">O dia em que o mundo ficou mais lindo e perfeito.</span>
-        </div>
-
-        <div class="milestone" style="left: 2600px;">
-            <span class="data-text">01/01/2026</span>
-            <span class="frase-text">Recomeço com muito amor e carinho.</span>
-        </div>
-
-        <div class="milestone" style="left: 3600px;">
-            <span class="data-text">13/02/2026</span>
-            <span class="frase-text">O início oficial do nosso felizes para sempre!</span>
-        </div>
-
-        <div id="final-platform" style="left: 4500px;">
-            Aceita viver o futuro comigo? (Pule aqui)
+    <div id="login-screen">
+        <div class="login-box">
+            <h1 style="color: var(--accent-color);">Nosso passado e futuro</h1>
+            <input type="text" id="input-nome" placeholder="Como quer ser chamada?">
+            <select id="input-cor">
+                <option value="rosa">Rosa Neon</option>
+                <option value="preto">Preto Brilhante</option>
+            </select>
+            <button class="btn-entrar" onclick="iniciarJogo()">Entrar no nosso mundo</button>
         </div>
     </div>
 
+    <div id="game-content">
+        <div id="game-world">
+            <div id="player">
+                <div id="player-name-tag"></div>
+            </div>
+            <div style="width:100%; height:60px; background:#ffb6c1; position:absolute; bottom:0;"></div>
+
+            <div class="milestone" style="left: 600px;">
+                <span class="data-text">18/02/2025</span>
+                <p>O começo de tudo...</p>
+            </div>
+            <div class="milestone" style="left: 2000px;">
+                <span class="data-text">13/02/2026</span>
+                <p>O nosso "Sim"!</p>
+            </div>
+
+            <div id="final-platform">Aceita viver o futuro comigo? ❤️</div>
+        </div>
+    </div>
+
+    <div id="gmail-section">
+        <h2>Para Minha Raquel ❤️</h2>
+        <iframe width="320" height="560" src="https://www.youtube.com/embed/8GlWCm9wOF0" frameborder="0" allowfullscreen></iframe>
+        <p style="margin: 30px auto; max-width: 600px; line-height: 1.6;">
+            Para que você possa sempre se lembrar dos nossos momentos juntos, faça login com esse gmail e me conte o que achou... amo muitooooooo!
+        </p>
+        <button class="btn-entrar" onclick="navigator.clipboard.writeText('georaquel.2026@gmail.com')">🎿 Copiar Gmail e Senha 🎿</button>
+        <p style="color: #999; margin-top: 20px;">Gomes Santos | 01/03/2030</p>
+    </div>
+
     <script>
+        let nomeSalvo = "";
+        let corSalva = "";
+
+        function iniciarJogo() {
+            nomeSalvo = document.getElementById('input-nome').value || "Raquel";
+            corSalva = document.getElementById('input-cor').value;
+            
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('game-content').style.display = 'block';
+            
+            const p = document.getElementById('player');
+            p.className = corSalva === 'rosa' ? 'cor-rosa' : 'cor-preto';
+            document.getElementById('player-name-tag').innerText = nomeSalvo;
+        }
+
         const world = document.getElementById('game-world');
         const player = document.getElementById('player');
         let playerX = 100;
-        let worldX = 0;
         let isDragging = false;
         let startX = 0;
 
-        // CONTROLE DE MOVIMENTO (Mouse e Toque)
-        function startMove(e) {
-            isDragging = true;
-            startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-        }
-
-        function move(e) {
-            if (!isDragging) return;
-            const currentX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-            const diff = (currentX - startX) * 1.5; // Sensibilidade
-            
+        function handleMove(currentX) {
+            let diff = (currentX - startX) * 1.5;
             playerX += diff;
             if (playerX < 50) playerX = 50;
-            if (playerX > 4800) playerX = 4800; // Limite do mapa
+            if (playerX > 4800) playerX = 4800;
 
             player.style.left = playerX + "px";
-            
-            // Câmera segue o personagem
-            worldX = -playerX + 150;
-            if (worldX > 0) worldX = 0;
-            world.style.transform = `translateX(${worldX}px)`;
-
+            world.style.transform = `translateX(${-playerX + 150 > 0 ? 0 : -playerX + 150}px)`;
             startX = currentX;
             createHeart();
         }
 
-        function stopMove() { isDragging = false; }
+        window.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
+        window.addEventListener('touchmove', e => { if(isDragging) handleMove(e.touches[0].clientX); });
+        window.addEventListener('touchend', () => isDragging = false);
 
-        window.addEventListener('mousedown', startMove);
-        window.addEventListener('mousemove', move);
-        window.addEventListener('mouseup', stopMove);
-        window.addEventListener('touchstart', startMove);
-        window.addEventListener('touchmove', move);
-        window.addEventListener('touchend', stopMove);
+        window.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+        window.addEventListener('mousemove', e => { if(isDragging) handleMove(e.clientX); });
+        window.addEventListener('mouseup', () => isDragging = false);
 
-        // PULO E VÍDEO
-        function jump() {
+        // PULO PARA O FINAL
+        window.addEventListener('dblclick', () => {
             player.style.bottom = "180px";
             setTimeout(() => {
                 player.style.bottom = "60px";
-                // Verifica se está em cima da plataforma final
                 if (playerX > 4400) {
-                    window.location.href = "https://www.youtube.com/embed/8GlWCm9wOF0?autoplay=1";
+                    document.getElementById('game-content').style.display = 'none';
+                    document.getElementById('gmail-section').style.display = 'block';
                 }
             }, 300);
-        }
-        window.addEventListener('dblclick', jump); // Clique duplo pula no PC
-        
-        // CORAÇÕES NA CABEÇA
+        });
+
         function createHeart() {
-            if (Math.random() > 0.1) return; // Não criar tantos para não travar
+            if (Math.random() > 0.1) return;
             const h = document.createElement('div');
             h.innerHTML = "❤️";
             h.className = "floating-heart";
             h.style.left = (playerX + 15) + "px";
             h.style.bottom = "110px";
+            h.style.color = corSalva === 'rosa' ? '#ff69b4' : '#fff';
             world.appendChild(h);
             setTimeout(() => h.remove(), 2000);
         }
-
-        // Loop de corações parado também
-        setInterval(() => {
-            if (!isDragging) createHeart();
-        }, 1000);
-
     </script>
 </body>
 </html>
