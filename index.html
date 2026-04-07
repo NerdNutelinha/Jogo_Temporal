@@ -25,13 +25,13 @@
             z-index: 1000; display: flex;
             flex-direction: column; justify-content: center; align-items: center;
             text-align: center;
-            overflow: hidden; /* Para os corações com cruz não saírem */
+            overflow: hidden;
         }
         .login-box {
             background: rgba(255, 255, 255, 0.1);
             padding: 40px; border-radius: 20px;
             backdrop-filter: blur(10px); border: 1px solid var(--accent-color);
-            z-index: 1010; /* Garante que fique na frente dos corações */
+            z-index: 1010;
         }
         input, select {
             display: block; margin: 15px auto; padding: 12px;
@@ -42,9 +42,10 @@
             background: var(--accent-color); color: white;
             border: none; padding: 15px 40px; border-radius: 50px;
             font-weight: bold; cursor: pointer; transition: 0.3s;
+            margin-top: 10px;
         }
 
-        /* --- CORAÇÕES COM CRUZ PRETA NA ENTRADA --- */
+        /* --- CORAÇÕES COM CRUZ --- */
         .black-heart-cross {
             position: absolute; color: #000; font-size: 20px;
             pointer-events: none; animation: floatUpCross 5s linear forwards;
@@ -65,61 +66,39 @@
             transition: transform 0.1s ease-out;
         }
 
+        /* MODIFICAÇÃO: PLAYER AGORA É A IMAGEM */
         #player {
-            width: 50px; height: 50px; position: absolute;
+            width: 120px; height: auto; position: absolute;
             left: 100px; bottom: 60px; z-index: 10;
-            border-radius: 50% 50% 10px 10px;
             transition: bottom 0.2s;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
         }
+        #player img {
+            width: 100%; height: auto;
+            animation: floatRaquel 3s ease-in-out infinite;
+        }
+        @keyframes floatRaquel {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
         #player-name-tag {
             position: absolute; width: 150px; text-align: center;
-            left: -50px; top: -40px; font-weight: bold;
+            left: -15px; top: -30px; font-weight: bold;
             text-shadow: 0 0 10px #000; pointer-events: none;
+            background: rgba(0,0,0,0.4); border-radius: 5px;
         }
 
-        .cor-rosa { background-color: #ff69b4; box-shadow: 0 0 20px #ff69b4; }
-        .cor-preto { background-color: #000; box-shadow: 0 0 20px #ffffff; border: 1px solid #fff; }
-
-        /* --- ESTILO DAS DATAS (PERSONALIZADO) --- */
+        /* --- MILESTONES --- */
         .milestone { position: absolute; bottom: 250px; text-align: center; width: 500px; }
         .frase-text {
             font-size: 1.3rem; color: #fff; margin-top: 15px;
             font-style: italic; text-shadow: 2px 2px 4px #000;
         }
-
-        /* 18/02/2025: Branco Gelo */
-        .data-1802 {
-            font-size: 3.5rem; font-weight: bold; color: var(--white-gelo);
-            text-shadow: 0 0 10px var(--white-gelo), 0 0 20px rgba(240, 248, 255, 0.5);
-            display: block;
-        }
-
-        /* 20/05/2010: Várias cores variadas */
-        .data-2010 {
-    font-size: 3.5rem; 
-    font-weight: bold;
-    background: linear-gradient(to right, #ff0000, #ff8c00, #ffff00);
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.8));
-    display: block;
-      }
-
-        /* 01/01/2026: Verde com Roxo */
-        .data-0101 {
-            font-size: 3.5rem; font-weight: bold;
-            background: linear-gradient(to right, #00ff00, #8a2be2);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.8));
-            display: block;
-        }
-
-        /* 13/02/2026: Vermelho Vivo */
-        .data-1302 {
-            font-size: 3.5rem; font-weight: bold; color: var(--vermelho-vivo);
-            text-shadow: 0 0 15px var(--vermelho-vivo), 0 0 30px var(--vermelho-vivo);
-            display: block;
-        }
+        .data-1802 { font-size: 3.5rem; font-weight: bold; color: var(--white-gelo); text-shadow: 0 0 10px var(--white-gelo); }
+        .data-2010 { font-size: 3.5rem; font-weight: bold; background: linear-gradient(to right, #ff0000, #ff8c00, #ffff00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .data-0101 { font-size: 3.5rem; font-weight: bold; background: linear-gradient(to right, #00ff00, #8a2be2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .data-1302 { font-size: 3.5rem; font-weight: bold; color: var(--vermelho-vivo); text-shadow: 0 0 15px var(--vermelho-vivo); }
 
         #final-platform {
             position: absolute; left: 5500px; bottom: 60px;
@@ -128,11 +107,21 @@
             align-items: center; font-weight: bold; animation: pulse 1.5s infinite;
         }
 
+        /* --- TELA FINAL (GMAIL) --- */
         #gmail-section {
             display: none; position: fixed; inset: 0;
-            background: white; color: #333; overflow-y: auto;
+            background: #000; color: #fff; overflow-y: auto;
             z-index: 2000; padding: 40px 20px; text-align: center;
         }
+
+        /* ESTILO DO CONTADOR */
+        .countdown-box {
+            background: rgba(255, 105, 180, 0.1);
+            border: 1px solid var(--accent-color);
+            padding: 20px; border-radius: 15px;
+            margin: 20px auto; max-width: 400px;
+        }
+        #tempo-restante { font-size: 1.5rem; font-weight: bold; color: var(--accent-color); }
 
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .floating-heart {
@@ -151,9 +140,7 @@
         <div class="login-box">
             <h1 style="color: var(--accent-color);">Nosso Passado e Futuro RG</h1>
             <input type="text" id="input-nome" placeholder="Como quer ser chamada Amorzinho ?">
-            <select id="input-cor">
-                <option value="rosa">Rosa Neon</option>
-                <option value="preto">Preto Brilhante</option>
+            <select id="input-cor" style="display:none;"> <option value="preto">Padrão</option>
             </select>
             <button class="btn-entrar" onclick="iniciarJogo()">Entrar no nosso mundo</button>
         </div>
@@ -161,8 +148,12 @@
 
     <div id="game-content">
         <div id="game-world">
-            <div id="player"><div id="player-name-tag"></div></div>
-            <div style="width:100%; height:60px; background:#ffb6c1; position:absolute; bottom:0;"></div>
+            <div id="player">
+                <div id="player-name-tag"></div>
+                <img src="raquel.png" id="raquel-img"> 
+            </div>
+
+            <div style="width:100%; height:60px; background:#111; border-top: 2px solid var(--accent-color); position:absolute; bottom:0;"></div>
 
             <div class="milestone" style="left: 800px;">
                 <span class="data-1802">18/02/2025</span>
@@ -184,51 +175,48 @@
                 <span class="frase-text">O começo do nosso futuro e cumprimento da promessa</span>
             </div>
 
-            <div id="final-platform">Aceita viver o futuro comigo Raquel ? ❤️</div>
+            <div id="final-platform">Dê um duplo clique aqui Raquel ❤️</div>
         </div>
     </div>
 
     <div id="gmail-section">
         <h2>Para Minha Raquel ❤️</h2>
-        <iframe width="320" height="560" src="https://www.youtube.com/embed/8GlWCm9wOF0" frameborder="0" allowfullscreen></iframe>
+        <div class="countdown-box">
+            <p>Tempo para nosso aniversário (13/02):</p>
+            <div id="tempo-restante">Carregando contador...</div>
+        </div>
+        <iframe width="320" height="400" src="https://www.youtube.com/embed/8GlWCm9wOF0" frameborder="0" allowfullscreen></iframe>
         <p style="margin: 30px auto; max-width: 600px; line-height: 1.6; font-size: 1.1rem;">
-            Para que você possa sempre se lembrar dos nossos momentos juntos, faça login com esse gmail e então me conte o que achou sobre tudo meu amorzinho mais lindo e perfeito desse mundo que amo muitooooooo e não largo por nada...
+            Para que você possa sempre se lembrar dos nossos momentos juntos...
         </p>
         <button class="btn-entrar" onclick="copiarInfo()">💞 Copiar Gmail e Senha 💞</button>
-        <p style="color: #999; margin-top: 20px;">Gomes Santos | 01/03/2030</p>
     </div>
 
     <script>
         let nomeSalvo = "";
-        let corSalva = "";
-
-        // Gerador de corações com cruz para a tela de login
+        
         function createBlackHearts() {
             const loginScreen = document.getElementById('login-screen');
-            for (let i = 0; i < 10; i++) { // Cria 10 corações de uma vez
+            for (let i = 0; i < 5; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
-                    heart.innerHTML = "❤️<br>†"; // Coração com cruz embaixo
+                    heart.innerHTML = "❤️<br>†";
                     heart.className = "black-heart-cross";
                     heart.style.left = Math.random() * 100 + "vw";
-                    heart.style.animationDuration = (Math.random() * 3 + 3) + "s"; // 3 a 6 segundos
+                    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
                     loginScreen.appendChild(heart);
                     setTimeout(() => heart.remove(), 6000);
-                }, i * 300); // Espaça a criação
+                }, i * 300);
             }
         }
-        // Inicia a geração contínua
-        setInterval(createBlackHearts, 3000); 
-        createBlackHearts(); // Cria os primeiros imediatamente
+        setInterval(createBlackHearts, 3000);
 
         function iniciarJogo() {
             nomeSalvo = document.getElementById('input-nome').value || "Raquel";
-            corSalva = document.getElementById('input-cor').value;
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('game-content').style.display = 'block';
-            const p = document.getElementById('player');
-            p.className = corSalva === 'rosa' ? 'cor-rosa' : 'cor-preto';
             document.getElementById('player-name-tag').innerText = nomeSalvo;
+            atualizarContador();
         }
 
         const world = document.getElementById('game-world');
@@ -259,7 +247,7 @@
             player.style.bottom = "180px";
             setTimeout(() => {
                 player.style.bottom = "60px";
-                if (playerX > 5400) {
+                if (playerX > 5300) {
                     document.getElementById('game-content').style.display = 'none';
                     document.getElementById('gmail-section').style.display = 'block';
                 }
@@ -271,11 +259,24 @@
             const h = document.createElement('div');
             h.innerHTML = "❤️";
             h.className = "floating-heart";
-            h.style.left = (playerX + 15) + "px";
-            h.style.bottom = "110px";
-            h.style.color = corSalva === 'rosa' ? '#ff69b4' : '#fff';
+            h.style.left = (playerX + 40) + "px";
+            h.style.bottom = "150px";
+            h.style.color = "#ff69b4";
             world.appendChild(h);
             setTimeout(() => h.remove(), 2000);
+        }
+
+        function atualizarContador() {
+            const dataAlvo = new Date("Feb 13, 2027 00:00:00").getTime(); // Ajustado para o próximo ano
+            setInterval(() => {
+                const agora = new Date().getTime();
+                const dist = dataAlvo - agora;
+                const d = Math.floor(dist / (1000 * 60 * 60 * 24));
+                const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((dist % (1000 * 60)) / 1000);
+                document.getElementById("tempo-restante").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+            }, 1000);
         }
 
         function copiarInfo() {
