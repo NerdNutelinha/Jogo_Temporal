@@ -11,221 +11,73 @@
             --white-gelo: #f0f8ff;
             --vermelho-vivo: #ff0000;
         }
-        body {
-            margin: 0; padding: 0; overflow: hidden;
-            background-color: var(--bg-dark);
-            font-family: 'Arial', sans-serif;
-            touch-action: none; color: white;
-        }
-
-        /* --- TELA DE LOGIN --- */
-        #login-screen {
-            position: fixed; inset: 0;
-            background: linear-gradient(45deg, #2c001e, #000);
-            z-index: 1000; display: flex;
-            flex-direction: column; justify-content: center; align-items: center;
-            text-align: center;
-            overflow: hidden;
-        }
-        .login-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px; border-radius: 20px;
-            backdrop-filter: blur(10px); border: 1px solid var(--accent-color);
-            z-index: 1010;
-        }
-        input, select {
-            display: block; margin: 15px auto; padding: 12px;
-            width: 250px; border-radius: 10px; border: none; outline: none;
-            color: #333;
-        }
-        .btn-entrar {
-            background: var(--accent-color); color: white;
-            border: none; padding: 15px 40px; border-radius: 50px;
-            font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-
-        /* --- CORAÇÕES COM CRUZ PRETA NA ENTRADA --- */
-        .black-heart-cross {
-            position: absolute; color: #000; font-size: 20px;
-            pointer-events: none; animation: floatUpCross 5s linear forwards;
-            opacity: 0; z-index: 1005;
-        }
-        @keyframes floatUpCross {
-            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-        }
-
-        /* --- MUNDO DO JOGO --- */
+        body { margin: 0; padding: 0; overflow: hidden; background-color: var(--bg-dark); font-family: 'Arial', sans-serif; touch-action: none; color: white; }
+        #login-screen { position: fixed; inset: 0; background: linear-gradient(45deg, #2c001e, #000); z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .login-box { background: rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid var(--accent-color); }
+        input, select { display: block; margin: 15px auto; padding: 12px; width: 250px; border-radius: 10px; border: none; }
+        .btn-entrar { background: var(--accent-color); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; }
         #game-content { display: none; }
-        #game-world {
-            width: 6000px; height: 100vh; position: relative;
-            background: linear-gradient(to bottom, #2c001e, #1a1a1a);
-            transition: transform 0.1s ease-out;
-        }
-
-        /* PERSONAGEM RAQUEL */
-        #player {
-            width: 120px; height: auto; position: absolute;
-            left: 100px; bottom: 60px; z-index: 10;
-            transition: bottom 0.2s;
-        }
-        #player img {
-            width: 100%; height: auto;
-            animation: floatRaquel 3s ease-in-out infinite;
-        }
-        @keyframes floatRaquel {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        #player-name-tag {
-            position: absolute; width: 150px; text-align: center;
-            left: -15px; top: -45px; font-weight: bold;
-            pointer-events: none;
-            padding: 2px 5px; border-radius: 5px;
-        }
-
-        .tag-rosa { color: #ff69b4; text-shadow: 0 0 10px #ff69b4, 0 0 5px #000; }
-        .tag-preto { color: #fff; text-shadow: 0 0 10px #ffffff, 0 0 5px #000; }
-
-        /* --- ESTILO DAS DATAS ORIGINAIS --- */
+        #game-world { width: 6000px; height: 100vh; position: relative; background: linear-gradient(to bottom, #2c001e, #1a1a1a); transition: transform 0.1s ease-out; }
+        #player { width: 120px; height: auto; position: absolute; left: 100px; bottom: 60px; z-index: 10; }
+        #player img { width: 100%; height: auto; }
+        #player-name-tag { position: absolute; width: 150px; text-align: center; left: -15px; top: -45px; font-weight: bold; }
         .milestone { position: absolute; bottom: 250px; text-align: center; width: 500px; }
-        .frase-text {
-            font-size: 1.3rem; color: #fff; margin-top: 15px;
-            font-style: italic; text-shadow: 2px 2px 4px #000;
-        }
-        .data-1802 { font-size: 3.5rem; font-weight: bold; color: var(--white-gelo); text-shadow: 0 0 10px var(--white-gelo); display: block; }
-        .data-2010 { font-size: 3.5rem; font-weight: bold; background: linear-gradient(to right, #ff0000, #ff8c00, #ffff00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.8)); display: block; }
-        .data-0101 { font-size: 3.5rem; font-weight: bold; background: linear-gradient(to right, #00ff00, #8a2be2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.8)); display: block; }
-        .data-1302 { font-size: 3.5rem; font-weight: bold; color: var(--vermelho-vivo); text-shadow: 0 0 15px var(--vermelho-vivo); display: block; }
-
-        #final-platform {
-            position: absolute; left: 5500px; bottom: 60px;
-            width: 380px; height: 50px; background: var(--accent-color);
-            border-radius: 15px; display: flex; justify-content: center;
-            align-items: center; font-weight: bold; animation: pulse 1.5s infinite;
-        }
-
-        #gmail-section {
-            display: none; position: fixed; inset: 0;
-            background: white; color: #333; overflow-y: auto;
-            z-index: 2000; padding: 40px 20px; text-align: center;
-        }
-
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .floating-heart {
-            position: absolute; font-size: 20px; pointer-events: none;
-            animation: floatUp 2s forwards; z-index: 5;
-        }
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-180px); }
-        }
+        .frase-text { font-size: 1.3rem; color: #fff; margin-top: 15px; font-style: italic; text-shadow: 2px 2px 4px #000; }
+        .data-1802 { font-size: 3.5rem; font-weight: bold; color: var(--white-gelo); display: block; }
+        .data-2010 { font-size: 3.5rem; font-weight: bold; color: orange; display: block; }
+        .data-0101 { font-size: 3.5rem; font-weight: bold; color: purple; display: block; }
+        .data-1302 { font-size: 3.5rem; font-weight: bold; color: var(--vermelho-vivo); display: block; }
+        #final-platform { position: absolute; left: 5500px; bottom: 60px; width: 380px; height: 50px; background: var(--accent-color); border-radius: 15px; display: flex; justify-content: center; align-items: center; font-weight: bold; }
+        #gmail-section { display: none; position: fixed; inset: 0; background: white; color: #333; overflow-y: auto; z-index: 2000; padding: 40px 20px; text-align: center; }
     </style>
 </head>
 <body>
-
     <div id="login-screen">
         <div class="login-box">
             <h1 style="color: var(--accent-color);">Nosso Passado e Futuro RG</h1>
             <input type="text" id="input-nome" placeholder="Como quer ser chamada Amorzinho ?">
-            <select id="input-cor">
-                <option value="rosa">Rosa Neon</option>
-                <option value="preto">Preto Brilhante</option>
-            </select>
+            <select id="input-cor"><option value="rosa">Rosa Neon</option><option value="preto">Preto Brilhante</option></select>
             <button class="btn-entrar" onclick="iniciarJogo()">Entrar no nosso mundo</button>
         </div>
     </div>
-
     <div id="game-content">
         <div id="game-world">
             <div id="player">
                 <div id="player-name-tag"></div>
-                <img src="raquel.png.png.png?v=2" id="raquel-img"> 
+                <img src="raquel.png.png.png" id="raquel-img">
             </div>
-            
             <div style="width:100%; height:60px; background:#ffb6c1; position:absolute; bottom:0;"></div>
-
-            <div class="milestone" style="left: 800px;">
-                <span class="data-1802">18/02/2025</span>
-                <span class="frase-text">O início de tudo... onde Cristo nos uniu</span>
-            </div>
-
-            <div class="milestone" style="left: 2000px;">
-                <span class="data-2010">20/05/2010</span> 
-                <span class="frase-text">O dia em que o mundo ficou mais lindo e perfeito</span>
-            </div>
-
-            <div class="milestone" style="left: 3200px;">
-                <span class="data-0101">01/01/2026</span>
-                <span class="frase-text">Recomeço de tudo e a nossa promessa</span>
-            </div>
-
-            <div class="milestone" style="left: 4400px;">
-                <span class="data-1302">13/02/2026</span>
-                <span class="frase-text">O começo do nosso futuro e cumprimento da promessa</span>
-            </div>
-
+            <div class="milestone" style="left: 800px;"><span class="data-1802">18/02/2025</span><span class="frase-text">O início de tudo... onde Cristo nos uniu</span></div>
+            <div class="milestone" style="left: 2000px;"><span class="data-2010">20/05/2010</span><span class="frase-text">O dia em que o mundo ficou mais lindo e perfeito</span></div>
+            <div class="milestone" style="left: 3200px;"><span class="data-0101">01/01/2026</span><span class="frase-text">Recomeço de tudo e a nossa promessa</span></div>
+            <div class="milestone" style="left: 4400px;"><span class="data-1302">13/02/2026</span><span class="frase-text">O começo do nosso futuro e cumprimento da promessa</span></div>
             <div id="final-platform">Aceita viver o futuro comigo Raquel ? ❤️</div>
         </div>
     </div>
-
     <div id="gmail-section">
         <h2>Para Minha Raquel ❤️</h2>
-        
-        <div style="background: #fce4ec; border: 2px solid var(--accent-color); padding: 10px; border-radius: 15px; margin-bottom: 20px;">
-            <p><strong>Tempo para nosso aniversário (13/02):</strong></p>
-            <div id="tempo-restante" style="font-size: 1.5rem; color: var(--accent-color); font-weight: bold;"></div>
-        </div>
-
+        <div id="tempo-restante" style="font-size: 1.2rem; color: var(--accent-color); margin-bottom: 20px;"></div>
         <iframe width="320" height="560" src="https://www.youtube.com/embed/8GlWCm9wOF0" frameborder="0" allowfullscreen></iframe>
-        
         <p style="margin: 30px auto; max-width: 600px; line-height: 1.6; font-size: 1.1rem;">
             Para que você possa sempre se lembrar dos nossos momentos juntos, faça login com esse gmail e então me conte o que achou sobre tudo meu amorzinho mais lindo e perfeito desse mundo que amo muitooooooo e não largo por nada...
         </p>
-
         <button class="btn-entrar" onclick="copiarInfo()">💞 Copiar Gmail e Senha 💞</button>
         <p style="color: #999; margin-top: 20px;">Gomes Santos | 01/03/2030</p>
     </div>
-
     <script>
         let nomeSalvo = "";
-        let corSalva = "";
-
-        function createBlackHearts() {
-            const loginScreen = document.getElementById('login-screen');
-            if(!loginScreen) return;
-            const heart = document.createElement('div');
-            heart.innerHTML = "❤️<br>†";
-            heart.className = "black-heart-cross";
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-            loginScreen.appendChild(heart);
-            setTimeout(() => heart.remove(), 6000);
-        }
-        setInterval(createBlackHearts, 1000);
-
         function iniciarJogo() {
             nomeSalvo = document.getElementById('input-nome').value || "Raquel";
-            corSalva = document.getElementById('input-cor').value;
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('game-content').style.display = 'block';
-            
-            const tag = document.getElementById('player-name-tag');
-            tag.innerText = nomeSalvo;
-            tag.className = corSalva === 'rosa' ? 'tag-rosa' : 'tag-preto';
-            
-            atualizarContador();
+            document.getElementById('player-name-tag').innerText = nomeSalvo;
+            setInterval(atualizarContador, 1000);
         }
-
         const world = document.getElementById('game-world');
         const player = document.getElementById('player');
         let playerX = 100;
         let isDragging = false;
         let startX = 0;
-
         function handleMove(currentX) {
             let diff = (currentX - startX) * 1.5;
             playerX += diff;
@@ -234,56 +86,27 @@
             player.style.left = playerX + "px";
             world.style.transform = `translateX(${-playerX + 150 > 0 ? 0 : -playerX + 150}px)`;
             startX = currentX;
-            createHeart();
         }
-
-        window.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
-        window.addEventListener('touchmove', e => { if(isDragging) handleMove(e.touches[0].clientX); });
-        window.addEventListener('touchend', () => isDragging = false);
         window.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
         window.addEventListener('mousemove', e => { if(isDragging) handleMove(e.clientX); });
         window.addEventListener('mouseup', () => isDragging = false);
-
+        window.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
+        window.addEventListener('touchmove', e => { if(isDragging) handleMove(e.touches[0].clientX); });
+        window.addEventListener('touchend', () => isDragging = false);
         window.addEventListener('dblclick', () => {
-            player.style.bottom = "180px";
-            setTimeout(() => {
-                player.style.bottom = "60px";
-                if (playerX > 5400) {
-                    document.getElementById('game-content').style.display = 'none';
-                    document.getElementById('gmail-section').style.display = 'block';
-                }
-            }, 300);
+            if (playerX > 5300) {
+                document.getElementById('game-content').style.display = 'none';
+                document.getElementById('gmail-section').style.display = 'block';
+            }
         });
-
-        function createHeart() {
-            if (Math.random() > 0.15) return;
-            const h = document.createElement('div');
-            h.innerHTML = "❤️";
-            h.className = "floating-heart";
-            h.style.left = (playerX + 45) + "px";
-            h.style.bottom = "150px";
-            h.style.color = corSalva === 'rosa' ? '#ff69b4' : '#fff';
-            world.appendChild(h);
-            setTimeout(() => h.remove(), 2000);
-        }
-
         function atualizarContador() {
-            const dataAlvo = new Date("Feb 13, 2027 00:00:00").getTime();
-            setInterval(() => {
-                const agora = new Date().getTime();
-                const dist = dataAlvo - agora;
-                const d = Math.floor(dist / (1000 * 60 * 60 * 24));
-                const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((dist % (1000 * 60)) / 1000);
-                const el = document.getElementById("tempo-restante");
-                if(el) el.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
-            }, 1000);
+            const dist = new Date("Feb 13, 2027 00:00:00").getTime() - new Date().getTime();
+            const d = Math.floor(dist / (1000 * 60 * 60 * 24));
+            document.getElementById("tempo-restante").innerHTML = "Tempo para 13/02: " + d + " dias";
         }
-
         function copiarInfo() {
             navigator.clipboard.writeText("georaquel.2026@gmail.com | Senha: 13022026Rg.");
-            alert("Gmail e Senha copiados minha Vida! ❤️");
+            alert("Copiado! ❤️");
         }
     </script>
 </body>
