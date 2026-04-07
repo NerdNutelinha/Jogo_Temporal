@@ -33,7 +33,7 @@
             backdrop-filter: blur(10px); border: 1px solid var(--accent-color);
             z-index: 1010;
         }
-        input, select {
+        input {
             display: block; margin: 15px auto; padding: 12px;
             width: 250px; border-radius: 10px; border: none; outline: none;
             color: #333;
@@ -66,7 +66,6 @@
             transition: transform 0.1s ease-out;
         }
 
-        /* MODIFICAÇÃO: PLAYER AGORA É A IMAGEM */
         #player {
             width: 120px; height: auto; position: absolute;
             left: 100px; bottom: 60px; z-index: 10;
@@ -107,14 +106,12 @@
             align-items: center; font-weight: bold; animation: pulse 1.5s infinite;
         }
 
-        /* --- TELA FINAL (GMAIL) --- */
+        /* --- TELA FINAL --- */
         #gmail-section {
             display: none; position: fixed; inset: 0;
             background: #000; color: #fff; overflow-y: auto;
             z-index: 2000; padding: 40px 20px; text-align: center;
         }
-
-        /* ESTILO DO CONTADOR */
         .countdown-box {
             background: rgba(255, 105, 180, 0.1);
             border: 1px solid var(--accent-color);
@@ -140,8 +137,6 @@
         <div class="login-box">
             <h1 style="color: var(--accent-color);">Nosso Passado e Futuro RG</h1>
             <input type="text" id="input-nome" placeholder="Como quer ser chamada Amorzinho ?">
-            <select id="input-cor" style="display:none;"> <option value="preto">Padrão</option>
-            </select>
             <button class="btn-entrar" onclick="iniciarJogo()">Entrar no nosso mundo</button>
         </div>
     </div>
@@ -150,7 +145,7 @@
         <div id="game-world">
             <div id="player">
                 <div id="player-name-tag"></div>
-                <img src="raquel.png" id="raquel-img"> 
+                <img src="raquel.png.png" id="raquel-img"> 
             </div>
 
             <div style="width:100%; height:60px; background:#111; border-top: 2px solid var(--accent-color); position:absolute; bottom:0;"></div>
@@ -197,19 +192,16 @@
         
         function createBlackHearts() {
             const loginScreen = document.getElementById('login-screen');
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.innerHTML = "❤️<br>†";
-                    heart.className = "black-heart-cross";
-                    heart.style.left = Math.random() * 100 + "vw";
-                    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-                    loginScreen.appendChild(heart);
-                    setTimeout(() => heart.remove(), 6000);
-                }, i * 300);
-            }
+            if(!loginScreen) return;
+            const heart = document.createElement('div');
+            heart.innerHTML = "❤️<br>†";
+            heart.className = "black-heart-cross";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+            loginScreen.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
         }
-        setInterval(createBlackHearts, 3000);
+        setInterval(createBlackHearts, 1000);
 
         function iniciarJogo() {
             nomeSalvo = document.getElementById('input-nome').value || "Raquel";
@@ -267,7 +259,7 @@
         }
 
         function atualizarContador() {
-            const dataAlvo = new Date("Feb 13, 2027 00:00:00").getTime(); // Ajustado para o próximo ano
+            const dataAlvo = new Date("Feb 13, 2027 00:00:00").getTime();
             setInterval(() => {
                 const agora = new Date().getTime();
                 const dist = dataAlvo - agora;
@@ -275,7 +267,8 @@
                 const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((dist % (1000 * 60)) / 1000);
-                document.getElementById("tempo-restante").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+                const el = document.getElementById("tempo-restante");
+                if(el) el.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
             }, 1000);
         }
 
