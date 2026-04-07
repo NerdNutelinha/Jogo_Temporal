@@ -63,13 +63,13 @@
             width: 6000px; height: 100vh; position: relative;
             background: linear-gradient(to bottom, #2c001e, #1a1a1a);
             transition: transform 0.1s ease-out;
-            z-index: 1; /* Base do mundo */
+            z-index: 1;
         }
 
         /* PERSONAGEM GELECA */
         #player {
             width: 80px; height: 80px; position: absolute;
-            left: 100px; bottom: 60px; z-index: 100; /* Garante que fique sobre as datas */
+            left: 100px; bottom: 60px; z-index: 100;
             transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.2s, left 0.1s linear;
             display: flex; justify-content: center; align-items: center;
         }
@@ -86,7 +86,7 @@
         .blob-core {
             width: 50%; height: 50%;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #333 0%, #000 60%, #1a1a1a) 100%);
+            background: radial-gradient(circle at 30% 30%, #333 0%, #000 60%, #1a1a1a 100%);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), inset 0 0 5px rgba(255,255,255,0.5);
             animation: corePulse 2s infinite;
         }
@@ -105,7 +105,6 @@
             50% { transform: scale(1.1); box-shadow: 0 0 25px rgba(255, 255, 255, 1); }
         }
 
-        /* Efeito Geleca no Pulo */
         .jumping { transform: scaleX(0.7) scaleY(1.4); }
         .falling { transform: scaleX(1.3) scaleY(0.7); }
 
@@ -116,18 +115,8 @@
             z-index: 101;
         }
 
-        /* --- MILESTONES (Z-INDEX MENOR) --- */
-        .milestone { 
-            position: absolute; 
-            bottom: 250px; 
-            text-align: center; 
-            width: 500px; 
-            z-index: 10; /* Fica atrás do personagem e corações */
-        }
-        .frase-text {
-            font-size: 1.3rem; color: #fff; margin-top: 15px;
-            font-style: italic; text-shadow: 2px 2px 4px #000;
-        }
+        .milestone { position: absolute; bottom: 250px; text-align: center; width: 500px; z-index: 10; }
+        .frase-text { font-size: 1.3rem; color: #fff; margin-top: 15px; font-style: italic; text-shadow: 2px 2px 4px #000; }
         .data-1802 { font-size: 3.5rem; font-weight: bold; color: var(--white-gelo); display: block; }
         .data-2010 { font-size: 3.5rem; font-weight: bold; color: #ff8c00; display: block; }
         .data-0101 { font-size: 3.5rem; font-weight: bold; color: #00ff00; display: block; }
@@ -147,15 +136,9 @@
             z-index: 2000; padding: 40px 20px; text-align: center;
         }
 
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        
-        /* CORAÇÃO FLUTUANTE AJUSTADO */
         .floating-heart {
-            position: absolute; 
-            font-size: 20px; 
-            pointer-events: none;
-            animation: floatUp 2s ease-out forwards; 
-            z-index: 110; /* Garante que fique sobre as datas */
+            position: absolute; font-size: 20px; pointer-events: none;
+            animation: floatUp 2s ease-out forwards; z-index: 110;
         }
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0); }
@@ -181,9 +164,7 @@
         <div id="game-world">
             <div id="player">
                 <div id="player-name-tag"></div>
-                <div class="blob-body" id="blob-body">
-                    <div class="blob-core"></div>
-                </div>
+                <div class="blob-body" id="blob-body"><div class="blob-core"></div></div>
             </div>
             
             <div style="width:100%; height:60px; background:#ffb6c1; position:absolute; bottom:0;"></div>
@@ -227,7 +208,7 @@
         let corSalva = "";
         let isJumping = false;
         let playerX = 100;
-        let playerY = 60; // Base do personagem
+        let playerY = 60;
         let startTouchX = 0;
         let isTouching = false;
 
@@ -251,21 +232,14 @@
         function iniciarJogo() {
             nomeSalvo = document.getElementById('input-nome').value || "Raquel";
             corSalva = document.getElementById('input-cor').value;
-            
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('game-content').style.display = 'block';
             document.getElementById('player-name-tag').innerText = nomeSalvo;
-            
-            if(corSalva === 'rosa') {
-                blobBody.classList.add('body-rosa');
-            } else {
-                blobBody.classList.add('body-laranja');
-            }
-            
+            if(corSalva === 'rosa') blobBody.classList.add('body-rosa');
+            else blobBody.classList.add('body-laranja');
             setInterval(atualizarContador, 1000);
         }
 
-        // --- CONTROLES MELHORADOS ---
         window.addEventListener('touchstart', e => { isTouching = true; startTouchX = e.touches[0].clientX; });
         window.addEventListener('touchmove', e => {
             if(!isTouching) return;
@@ -292,23 +266,20 @@
             if(playerX > 5800) playerX = 5800;
             player.style.left = playerX + "px";
             world.style.transform = `translateX(${-playerX + window.innerWidth/4}px)`;
-            createHeart(); // Cria coração ao mover
+            createHeart();
         }
 
         function jump() {
             if (isJumping) return;
             isJumping = true;
-            
             player.classList.add('jumping');
-            playerY = 280; // Altura do pulo
+            playerY = 280;
             player.style.bottom = playerY + "px";
-
             setTimeout(() => {
                 player.classList.remove('jumping');
                 player.classList.add('falling');
-                playerY = 60; // Base
+                playerY = 60;
                 player.style.bottom = playerY + "px";
-                
                 setTimeout(() => {
                     player.classList.remove('falling');
                     isJumping = false;
@@ -324,28 +295,22 @@
             }
         }
 
-        // --- FUNÇÃO CORAÇÃO CORRIGIDA ---
         function createHeart() {
-            if (Math.random() > 0.15) return; // Chance de sair
-            
+            if (Math.random() > 0.15) return;
             const h = document.createElement('div');
             h.innerHTML = "❤️";
             h.className = "floating-heart";
-            
-            // Posição X: Baseada no centro do personagem (playerX)
-            // Posição Y: Baseada na altura atual do personagem (playerY)
-            const randomOffsetX = (Math.random() - 0.5) * 40; // Espalha um pouco
+            const randomOffsetX = (Math.random() - 0.5) * 40;
             h.style.left = (playerX + 40 + randomOffsetX) + "px";
-            h.style.bottom = (playerY + 40) + "px"; // Nasce no meio da geleca
-
+            h.style.bottom = (playerY + 40) + "px";
             h.style.color = corSalva === 'rosa' ? '#ff69b4' : '#ff4500';
-            
             world.appendChild(h);
             setTimeout(() => h.remove(), 2000);
         }
 
         function atualizarContador() {
-            const dataAlvo = new Date("Mar 13, 2026 00:00:00").getTime();
+            // DATA AJUSTADA PARA 13 DE ABRIL DE 2026
+            const dataAlvo = new Date("Apr 13, 2026 00:00:00").getTime();
             const agora = new Date().getTime();
             const dist = dataAlvo - agora;
             const d = Math.floor(dist / (1000 * 60 * 60 * 24));
@@ -353,12 +318,14 @@
             const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((dist % (1000 * 60)) / 1000);
             const el = document.getElementById("tempo-restante");
-            if(el) el.innerHTML = `Faltam ${d}d ${h}h ${m}m ${s}s para 13/03 ❤️`;
+            if(el) {
+                if(dist > 0) el.innerHTML = `Faltam ${d}d ${h}h ${m}m ${s}s para 13/04 ❤️`;
+                else el.innerHTML = "Feliz 13 de Abril! Nosso dia chegou! ❤️";
+            }
         }
 
         function copiarInfo() {
             navigator.clipboard.writeText("georaquel.2026@gmail.com | Senha: 13022026Rg.");
-            // MENSAGEM CORRIGIDA AQUI
             alert("Gmail e Senha copiados meu amor ❤️");
         }
     </script>
